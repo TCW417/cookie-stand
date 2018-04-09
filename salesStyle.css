@@ -37,9 +37,13 @@ li {
   font-family: sans-serif;
 }
 
+p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 h1+p {
   text-align: center;
-  font-family: sans-serif;
+  /* font-family: Georgia, 'Times New Roman', Times, serif; */
   font-size: 175%;
   margin: 0px 8px;
 }
@@ -48,4 +52,10 @@ h1+p {
   width: 19%;
   float: left;
   border-right: 1px solid black;
+}
+
+#salesTotal {
+  text-align: center;
+  font-size: 175%;
+  clear: both;
 }

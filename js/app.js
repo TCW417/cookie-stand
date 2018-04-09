@@ -81,42 +81,56 @@ var store = [
   }
 ];
 
-console.log(hoursLabels);
+simulateStoreSales();
+renderSalesResults();
+
 //simulate sales for each store...
-for (var i = 0; i < store.length; i++) {
-  store[i].simulateDailySales();
+function simulateStoreSales() {
+  for (var i = 0; i < store.length; i++) {
+    store[i].simulateDailySales();
+  }
+  console.log(store);
 }
-console.log(store);
 
 // //output results for each store...
-for (i = 0; i < store.length; i++) {
-  //format id tag names
-  var storeId = 'store'+i;
-  var storeH2Id = 'h2'+storeId;
-  console.log('id tags', storeH2Id, storeId);
-  //initialize store heading
-  var h2Element = document.getElementById(storeH2Id);
-  h2Element.textContent = store[i].name;
-  //initialize daily total
-  var totalCookiesSold = 0;
-  //get ul element with storeId
-  var ulElement = document.getElementById(storeId);
-  //for each hour of operation
-  // var j = hoursLabels.length-1;
-  console.log('hourslabels.length', hoursLabels.length);
-  for (var j = 0; j < hoursLabels.length; j++) {
-    var liElement = document.createElement('li');
-    liElement.textContent = hoursLabels[j] + ': ' + store[i].hourlyCookiesSold[j] + ' cookies';
-    console.log(liElement.textContent);
-    totalCookiesSold += store[i].hourlyCookiesSold[j];
+function renderSalesResults() {
+  var allStoresTotalCookieSales = 0;
+  for (var i = 0; i < store.length; i++) {
+    //format id tag names
+    var storeId = 'store'+i;
+    var storeH2Id = 'h2'+storeId;
+    console.log('id tags', storeH2Id, storeId);
+    //initialize store heading
+    var h2Element = document.getElementById(storeH2Id);
+    h2Element.textContent = store[i].name;
+    //initialize daily total
+    var totalCookiesSold = 0;
+    //get ul element with storeId
+    var ulElement = document.getElementById(storeId);
+    //for each hour of operation
+    // var j = hoursLabels.length-1;
+    console.log('hourslabels.length', hoursLabels.length);
+    for (var j = 0; j < hoursLabels.length; j++) {
+      var liElement = document.createElement('li');
+      liElement.textContent = hoursLabels[j] + ': ' + store[i].hourlyCookiesSold[j] + ' cookies';
+      console.log(liElement.textContent);
+      totalCookiesSold += store[i].hourlyCookiesSold[j];
+      ulElement.appendChild(liElement);
+    }
+    // capture total of all stores
+    allStoresTotalCookieSales += totalCookiesSold;
+    // output daily total
+    liElement = document.createElement('li');
+    liElement.textContent = 'Total: ' + totalCookiesSold + ' cookies';
     ulElement.appendChild(liElement);
-  }
-  // output daily total
-  liElement = document.createElement('li');
-  liElement.textContent = 'Total: ' + totalCookiesSold + ' cookies';
-  ulElement.appendChild(liElement);
-} // next store...
+  } // next store...
 
-var el = document.getElementById('todaysDate');
-var rightNow = new Date(Date.now()).toLocaleString();
-el.textContent = rightNow;
+  //Plug date stamp into html
+  var el = document.getElementById('todaysDate');
+  var rightNow = new Date(Date.now()).toLocaleString();
+  el.textContent = rightNow;
+
+  //Add total store sales to bottom of report
+  el = document.getElementById('allStoreSales');
+  el.textContent = allStoresTotalCookieSales;
+}
