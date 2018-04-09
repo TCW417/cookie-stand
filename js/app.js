@@ -112,7 +112,7 @@ for (i = 0; i < store.length; i++) {
     ulElement.appendChild(liElement);
   }
   // output daily total
-  var liElement = document.createElement('li');
+  liElement = document.createElement('li');
   liElement.textContent = 'Total: ' + totalCookiesSold + ' cookies';
   ulElement.appendChild(liElement);
 } // next store...
