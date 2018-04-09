@@ -117,3 +117,6 @@ for (i = 0; i < store.length; i++) {
   ulElement.appendChild(liElement);
 } // next store...
 
+var el = document.getElementById('todaysDate');
+var rightNow = new Date(Date.now()).toLocaleString();
+el.textContent = rightNow;

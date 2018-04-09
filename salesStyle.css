@@ -1,0 +1,51 @@
+* {
+  max-width: 960px;
+  background-color: lightblue;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+}
+
+h1 {
+  font-family: 'East Sea Dokdo', cursive;
+  font-size: 600%;
+  text-align: center;
+  color: rgb(235, 166, 178);
+  margin: 0px;
+}
+
+h2 {
+  font-family: 'East Sea Dokdo', cursive;
+  font-size: 200%;
+  line-height: 50px;
+  margin: 0px 8px;
+  /* color: rgb(55, 74, 110); */
+}
+
+li {
+  font-family: sans-serif;
+}
+
+h1+p {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 175%;
+  margin: 0px 8px;
+}
+
+.storeSales {
+  width: 19%;
+  float: left;
+  border-right: 1px solid black;
+}
