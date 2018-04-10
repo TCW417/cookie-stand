@@ -95,6 +95,8 @@ CookieStore.renderSalesResults = function() {
     i.renderStoreSales(tbodyEl);
   }
 
+  //render table footer (hourly totals)
+  CookieStore.renderTableFooter();
   //done with stores. some added info added to the page
   //Plug date stamp into html
   var el = document.getElementById('todaysDate');
@@ -138,6 +140,21 @@ CookieStore.renderTableHeader = function() {
   //append row to header
   theadEl.appendChild(trEl);
 };
+CookieStore.renderTableFooter = function() {
+  //get table footer
+  var tfootEl = document.getElementById('tableFooter');
+  //start row
+  var trEl = document.createElement('tr');
+  //Add header cell
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Totals';
+  trEl.appendChild(thEl);
+  //add hourly totals
+
+  //append row to footer
+  tfootEl.appendChild(trEl);
+};
+
 // instantiate each store with stats provided by business owner:
 // Store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
 store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
