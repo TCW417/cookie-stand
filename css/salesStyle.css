@@ -1,6 +1,6 @@
 * {
   max-width: 960px;
-  background-color: lightblue;
+  background-color: #AA7B39;
 }
 
 .container {
@@ -21,7 +21,7 @@ h1 {
   font-family: 'East Sea Dokdo', cursive;
   font-size: 600%;
   text-align: center;
-  color: rgb(235, 166, 178);
+  color: #FF9A0B;
   margin: 0px;
 }
 
@@ -39,6 +39,7 @@ li {
 
 p {
   font-family: Georgia, 'Times New Roman', Times, serif;
+  color: #3C3225
 }
 
 h1+p {
@@ -61,7 +62,7 @@ h1+p {
 }
 
 table {
-  border: 2px solid blue;
+  border: 4px solid #3c3225;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -71,10 +72,20 @@ table {
 th {
   background-color: beige;
   font-family: sans-serif;
+  line-height: 150%;
 }
 
 td {
-  background-color: rgb(235, 166, 178);
+  background-color: #E1962B;
   text-align: center;
   font-family: sans-serif;
+  line-height: 150%;
+}
+
+td:last-child {
+  font-weight: bold;
+}
+
+tfoot tr {
+  font-weight: bold;
 }
