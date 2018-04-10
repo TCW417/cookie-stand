@@ -22,6 +22,7 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.maxCustomers = maxCustomers;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
   this.hourlyCookiesSold = [];
+  this.hourlyStaffingEstimate = [];
   // this.h2Element; //reference to store's heading for ul
   // this.ulElement; //reference to store's unordered list
   this.simulateDailySales(); // fill hourlyCookiesSold with simulated data
@@ -36,6 +37,9 @@ CookieStore.prototype.simulateDailySales = function() {
   // per customer by random # of customers
   for (var i = 0; i < openHours; i++) {
     this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
+    var cookies = this.hourlyCookiesSold[i];
+    var staff = Math.floor(Math.max(2, cookies/20));
+    this.hourlyStaffingEstimate.push(staff);
   }
 };
 CookieStore.prototype.renderStoreHourlySales = function(tableRow) {
@@ -82,6 +86,80 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   tbodyEl.appendChild(trEl);
 };
 
+CookieStore.prototype.renderStoreHourlyStaffingEstimate = function(tableRow) {
+  // var totalCookiesSold = 0;
+  //for each hour of operation
+  for (var j in this.hourlyStaffingEstimate) {
+    //create a table data element
+    var tdElement = document.createElement('td');
+    //give it content
+    tdElement.textContent = this.hourlyStaffingEstimate[j];
+    //update daily total
+    // totalCookiesSold += this.hourlyCookiesSold[j];
+    //add table cell to row
+    tableRow.appendChild(tdElement);
+    //capture hourly sales in hourlyTotal
+    // hourlyTotal[j] += this.hourlyCookiesSold[j];
+  }
+  return;
+};
+
+CookieStore.prototype.renderStoreStaffingEstimate = function(tbodyEl) {
+
+  //create a row for this store
+  var trEl = document.createElement('tr');
+
+  //append a header cell with store name to the row
+  var thEl = document.createElement('th');
+  thEl.textContent = this.name;
+  trEl.appendChild(thEl);
+
+  //render hourly staffing needed for the store
+  this.renderStoreHourlyStaffingEstimate(trEl);
+
+  //append row to table
+  tbodyEl.appendChild(trEl);
+};
+//output company-wide staffing estimate...
+CookieStore.renderStaffingEstimate = function() {
+  //render headings of the table
+  CookieStore.renderStaffingTableHeader();
+  //get table body element
+  var tbodyEl = document.getElementById('staffingTableBody');
+  //loop through stores rendering their sales
+  for (var i of store) {
+    i.renderStoreStaffingEstimate(tbodyEl);
+  }
+
+  //render table footer (hourly totals)
+  // CookieStore.renderStaffingTableFooter();
+  //done with stores. some added info added to the page
+};
+
+CookieStore.renderStaffingTableHeader = function() {
+  var headings = ['Location'];
+  var hoursLabels = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm'];
+  for (var i of hoursLabels) {
+    headings.push(i);
+  }
+  // headings.push('Daily Location Total');
+  console.log(headings);
+  //get reference to table header
+  var theadEl = document.getElementById('staffingTableHeader');
+  //create row
+  var trEl = document.createElement('tr');
+  //for each heading...
+  for (var thItem of headings) {
+    //create th elements
+    var thEl = document.createElement('th');
+    //add content
+    thEl.textContent = thItem;
+    //append to row
+    trEl.appendChild(thEl);
+  }
+  //append row to header
+  theadEl.appendChild(trEl);
+};
 //output results for each store...
 CookieStore.renderSalesResults = function() {
   //initialize sales grand total
@@ -181,3 +259,4 @@ store.push(new CookieStore('Alki', 2, 16, 4.6));
 
 // render html
 CookieStore.renderSalesResults();
+CookieStore.renderStaffingEstimate();
