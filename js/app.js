@@ -121,13 +121,15 @@ function renderSalesResults() {
     allStoresTotalCookieSales += totalCookiesSold;
     // output daily total
     liElement = document.createElement('li');
-    liElement.textContent = 'Total: ' + totalCookiesSold + ' cookies';
+    liElement.innerHTML = '<b>Total: ' + totalCookiesSold + ' cookies</b>';
     ulElement.appendChild(liElement);
   } // next store...
 
   //Plug date stamp into html
   var el = document.getElementById('todaysDate');
   var rightNow = new Date(Date.now()).toLocaleString();
+  //strip off time portion of date string
+  rightNow = rightNow.slice(0, rightNow.indexOf(','));
   el.textContent = rightNow;
 
   //Add total store sales to bottom of report
