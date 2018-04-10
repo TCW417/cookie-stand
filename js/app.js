@@ -13,6 +13,8 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.maxCustomers = maxCustomers;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
   this.hourlyCookiesSold = [];
+  this.ulElement; //reference to store's unordered list
+  this.simulateDailySales(); // fill hourlyCookiesSold with simulated data
 }
 CookieStore.prototype.hourlyCustomers = function() {
   // return randum # of customers between
@@ -26,27 +28,27 @@ CookieStore.prototype.simulateDailySales = function() {
     this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
   }
 };
+CookieStore.prototype.renderStoreSales = function() {
+  var totalCookiesSold = 0;
+  //for each hour of operation
+  for (var j = 0; j < hoursLabels.length; j++) {
+    //create a list item element
+    var liElement = document.createElement('li');
 
-store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
-store.push(new CookieStore('SeaTac Airport', 3, 24, 1.2));
-store.push(new CookieStore('Seattle Center', 11, 38, 3.7));
-store.push(new CookieStore('Capital Hill', 20, 38, 2.3));
-store.push(new CookieStore('Alki', 2, 16, 4.6));
+    //give it content
+    liElement.textContent = hoursLabels[j] + ': ' + this.hourlyCookiesSold[j] + ' cookies';
+    console.log(liElement.textContent);
 
-// Do the magic...
-simulateStoreSales();
-renderSalesResults();
+    //update daily total
+    totalCookiesSold += this.hourlyCookiesSold[j];
 
-//simulate sales for each store...
-function simulateStoreSales() {
-  for (var i = 0; i < store.length; i++) {
-    store[i].simulateDailySales();
+    //add list item to html
+    this.ulElement.appendChild(liElement);
   }
-  console.log(store);
-}
-
-// //output results for each store...
-function renderSalesResults() {
+  return totalCookiesSold;
+};
+//output results for each store...
+CookieStore.renderSalesResults = function() {
   var allStoresTotalCookieSales = 0;
   for (var i = 0; i < store.length; i++) {
     //format id tag names
@@ -62,31 +64,18 @@ function renderSalesResults() {
     var totalCookiesSold = 0;
 
     //get ul element with storeId
-    var ulElement = document.getElementById(storeId);
+    store[i].ulElement = document.getElementById(storeId);
 
-    //for each hour of operation
-    for (var j = 0; j < hoursLabels.length; j++) {
-      //create a list item element
-      var liElement = document.createElement('li');
-
-      //give it content
-      liElement.textContent = hoursLabels[j] + ': ' + store[i].hourlyCookiesSold[j] + ' cookies';
-      console.log(liElement.textContent);
-
-      //update daily total
-      totalCookiesSold += store[i].hourlyCookiesSold[j];
-
-      //add list item to html
-      ulElement.appendChild(liElement);
-    }
+    //render list for store[i]
+    totalCookiesSold += store[i].renderStoreSales();
 
     //done with a store. add its sales to overall total
     allStoresTotalCookieSales += totalCookiesSold;
 
     // output daily total
-    liElement = document.createElement('li');
+    var liElement = document.createElement('li');
     liElement.innerHTML = '<b>Total: ' + totalCookiesSold + ' cookies</b>';
-    ulElement.appendChild(liElement);
+    store[i].ulElement.appendChild(liElement);
   } // next store...
 
   //done with stores. some added info added to the page
@@ -107,4 +96,18 @@ function renderSalesResults() {
   //Add total store sales to bottom of report
   el = document.getElementById('allStoreSales');
   el.textContent = allStoresTotalCookieSales;
-}
+};
+
+// instantiate each store with stats provided by business owner:
+// Store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
+store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
+store.push(new CookieStore('SeaTac Airport', 3, 24, 1.2));
+store.push(new CookieStore('Seattle Center', 11, 38, 3.7));
+store.push(new CookieStore('Capital Hill', 20, 38, 2.3));
+store.push(new CookieStore('Alki', 2, 16, 4.6));
+
+console.log(store);
+
+// render html
+CookieStore.renderSalesResults();
+
