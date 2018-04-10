@@ -10,10 +10,14 @@ var store = [
     maxCustomers: 65,
     avgCookiesPerCustomer: 6.3,
     hourlyCookiesSold: [],
-    hourlyCustomers: function() { //range 0 to 100
-      return Math.round(Math.random() * 100);
+    hourlyCustomers: function() {
+      // return randum # of customers between
+      // store's min and max values
+      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
     },
     simulateDailySales: function() {
+      // for each hour of operation multiply avg cookies
+      // per customer by random # of customers
       for (var i = 0; i < hoursLabels.length; i++) {
         this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
       }
@@ -25,8 +29,8 @@ var store = [
     maxCustomers: 24,
     avgCookiesPerCustomer: 1.2,
     hourlyCookiesSold: [],
-    hourlyCustomers: function() { //range 0 to 100
-      return Math.round(Math.random() * 100);
+    hourlyCustomers: function() {
+      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
     },
     simulateDailySales: function() {
       for (var i = 0; i < hoursLabels.length; i++) {
@@ -40,8 +44,8 @@ var store = [
     maxCustomers: 38,
     avgCookiesPerCustomer: 3.7,
     hourlyCookiesSold: [],
-    hourlyCustomers: function() { //range 0 to 100
-      return Math.round(Math.random() * 100);
+    hourlyCustomers: function() {
+      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
     },
     simulateDailySales: function() {
       for (var i = 0; i < hoursLabels.length; i++) {
@@ -55,8 +59,8 @@ var store = [
     maxCustomers: 38,
     avgCookiesPerCustomer: 2.3,
     hourlyCookiesSold: [],
-    hourlyCustomers: function() { //range 0 to 100
-      return Math.round(Math.random() * 100);
+    hourlyCustomers: function() {
+      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
     },
     simulateDailySales: function() {
       for (var i = 0; i < hoursLabels.length; i++) {
@@ -70,8 +74,8 @@ var store = [
     maxCustomers: 16,
     avgCookiesPerCustomer: 4.6,
     hourlyCookiesSold: [],
-    hourlyCustomers: function() { //range 0 to 100
-      return Math.round(Math.random() * 100);
+    hourlyCustomers: function() {
+      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
     },
     simulateDailySales: function() {
       for (var i = 0; i < hoursLabels.length; i++) {
@@ -81,6 +85,7 @@ var store = [
   }
 ];
 
+// Do the magic...
 simulateStoreSales();
 renderSalesResults();
 
@@ -100,37 +105,56 @@ function renderSalesResults() {
     var storeId = 'store'+i;
     var storeH2Id = 'h2'+storeId;
     console.log('id tags', storeH2Id, storeId);
-    //initialize store heading
+
+    //initialize store table heading with store name
     var h2Element = document.getElementById(storeH2Id);
     h2Element.textContent = store[i].name;
-    //initialize daily total
+
+    //initialize daily total for this store
     var totalCookiesSold = 0;
+
     //get ul element with storeId
     var ulElement = document.getElementById(storeId);
+
     //for each hour of operation
-    // var j = hoursLabels.length-1;
-    console.log('hourslabels.length', hoursLabels.length);
     for (var j = 0; j < hoursLabels.length; j++) {
+      //create a list item element
       var liElement = document.createElement('li');
+
+      //give it content
       liElement.textContent = hoursLabels[j] + ': ' + store[i].hourlyCookiesSold[j] + ' cookies';
       console.log(liElement.textContent);
+
+      //update daily total
       totalCookiesSold += store[i].hourlyCookiesSold[j];
+
+      //add list item to html
       ulElement.appendChild(liElement);
     }
-    // capture total of all stores
+
+    //done with a store. add its sales to overall total
     allStoresTotalCookieSales += totalCookiesSold;
+
     // output daily total
     liElement = document.createElement('li');
     liElement.innerHTML = '<b>Total: ' + totalCookiesSold + ' cookies</b>';
     ulElement.appendChild(liElement);
   } // next store...
 
+  //done with stores. some added info added to the page
   //Plug date stamp into html
   var el = document.getElementById('todaysDate');
-  var rightNow = new Date(Date.now()).toLocaleString();
+
+  //get yestday's date (now - # milliseconds in a day)
+  var yesterday = new Date(Date.now() - 24*60*60*1000);
+
+  //convert it to a readable string
+  var reportDate = yesterday.toLocaleString();
+
   //strip off time portion of date string
-  rightNow = rightNow.slice(0, rightNow.indexOf(','));
-  el.textContent = rightNow;
+  reportDate = reportDate.slice(0, reportDate.indexOf(','));
+
+  el.textContent = reportDate;
 
   //Add total store sales to bottom of report
   el = document.getElementById('allStoreSales');
