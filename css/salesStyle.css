@@ -39,7 +39,8 @@ li {
 
 p {
   font-family: Georgia, 'Times New Roman', Times, serif;
-  color: #3C3225
+  color: #3C3225;
+  margin: 8px;
 }
 
 h1+p {
