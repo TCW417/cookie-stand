@@ -103,7 +103,27 @@ CookieStore.renderSalesResults = function() {
   el = document.getElementById('allStoreSales');
   el.textContent = allStoresTotalCookieSales;
 };
-
+CookieStore.renderTableHeader = function() {
+  var headings = ['Location']
+  var hoursLabels = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm'];
+  for (var i of hoursLabels) {
+    headings.push(i);
+  }
+  headings.push('Daily Location Total');
+  console.log(headings);
+  //get reference to table header
+  var theadEl = document.getElementById('tableHeader');
+  //create row
+  var trEl = document.createElement('tr');
+  //create th elements
+  var thEl = document.createElement('th');
+  //add content
+  thEl.textContent = headings[0];
+  //append to row
+  trEl.appendChild(thEl);
+  //append row to header
+  theadEl.appendChild(trEl);
+};
 // instantiate each store with stats provided by business owner:
 // Store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
 store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
@@ -112,8 +132,9 @@ store.push(new CookieStore('Seattle Center', 11, 38, 3.7));
 store.push(new CookieStore('Capital Hill', 20, 38, 2.3));
 store.push(new CookieStore('Alki', 2, 16, 4.6));
 
-console.log(store);
+// console.log(store);
 
 // render html
-CookieStore.renderSalesResults();
+// CookieStore.renderSalesResults();
 
+CookieStore.renderTableHeader();
