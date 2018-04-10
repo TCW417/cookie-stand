@@ -29,7 +29,7 @@ h2 {
   font-family: 'East Sea Dokdo', cursive;
   font-size: 200%;
   line-height: 50px;
-  margin: 0px 8px;
+  margin: 8px 8px;
   /* color: rgb(55, 74, 110); */
 }
 
@@ -54,8 +54,27 @@ h1+p {
   border-right: 1px solid black;
 }
 
-#salesTotal {
+.salesTotal {
   text-align: center;
   font-size: 175%;
   clear: both;
+}
+
+table {
+  border: 2px solid blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+th {
+  background-color: beige;
+  font-family: sans-serif;
+}
+
+td {
+  background-color: rgb(235, 166, 178);
+  text-align: center;
+  font-family: sans-serif;
 }
