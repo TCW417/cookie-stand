@@ -6,6 +6,9 @@ var hoursLabels = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm
 // Store array of CookieStore objects
 var store = [];
 
+// Sum of sales for all stores.
+var allStoresTotalCookieSales;
+
 // CookieStore constructor and methods:
 function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.name = name;
@@ -13,6 +16,7 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.maxCustomers = maxCustomers;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
   this.hourlyCookiesSold = [];
+  this.h2Element; //reference to store's heading for ul
   this.ulElement; //reference to store's unordered list
   this.simulateDailySales(); // fill hourlyCookiesSold with simulated data
 }
@@ -28,55 +32,57 @@ CookieStore.prototype.simulateDailySales = function() {
     this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
   }
 };
-CookieStore.prototype.renderStoreSales = function() {
+CookieStore.prototype.renderStoreHourlySales = function() {
   var totalCookiesSold = 0;
+  //initialize store table heading with store name
+  this.h2Element.textContent = this.name;
   //for each hour of operation
   for (var j = 0; j < hoursLabels.length; j++) {
     //create a list item element
     var liElement = document.createElement('li');
-
     //give it content
     liElement.textContent = hoursLabels[j] + ': ' + this.hourlyCookiesSold[j] + ' cookies';
     console.log(liElement.textContent);
-
     //update daily total
     totalCookiesSold += this.hourlyCookiesSold[j];
-
     //add list item to html
     this.ulElement.appendChild(liElement);
   }
   return totalCookiesSold;
 };
+CookieStore.prototype.renderStoreSales = function(i) {
+  //format id tag names
+  var storeId = 'store'+i;
+  var storeH2Id = 'h2'+storeId;
+  console.log('id tags', storeH2Id, storeId);
+
+  //initialize daily total for this store
+  var totalCookiesSold = 0;
+
+  // //initialize store table heading with store name
+  this.h2Element = document.getElementById(storeH2Id);
+  //get ul element with storeId
+  this.ulElement = document.getElementById(storeId);
+  //render list for store[i]
+  totalCookiesSold += this.renderStoreHourlySales();
+
+  //done with a store. add its sales to overall total
+  allStoresTotalCookieSales += totalCookiesSold;
+
+  // output daily total
+  var liElement = document.createElement('li');
+  liElement.innerHTML = '<b>Total: ' + totalCookiesSold + ' cookies</b>';
+  this.ulElement.appendChild(liElement);
+};
+
 //output results for each store...
 CookieStore.renderSalesResults = function() {
-  var allStoresTotalCookieSales = 0;
-  for (var i = 0; i < store.length; i++) {
-    //format id tag names
-    var storeId = 'store'+i;
-    var storeH2Id = 'h2'+storeId;
-    console.log('id tags', storeH2Id, storeId);
-
-    //initialize store table heading with store name
-    var h2Element = document.getElementById(storeH2Id);
-    h2Element.textContent = store[i].name;
-
-    //initialize daily total for this store
-    var totalCookiesSold = 0;
-
-    //get ul element with storeId
-    store[i].ulElement = document.getElementById(storeId);
-
-    //render list for store[i]
-    totalCookiesSold += store[i].renderStoreSales();
-
-    //done with a store. add its sales to overall total
-    allStoresTotalCookieSales += totalCookiesSold;
-
-    // output daily total
-    var liElement = document.createElement('li');
-    liElement.innerHTML = '<b>Total: ' + totalCookiesSold + ' cookies</b>';
-    store[i].ulElement.appendChild(liElement);
-  } // next store...
+  //initialize sales grand total
+  allStoresTotalCookieSales = 0;
+  //loop through stores rendering their sales
+  for (var i in store) {
+    store[i].renderStoreSales(i);
+  }
 
   //done with stores. some added info added to the page
   //Plug date stamp into html
