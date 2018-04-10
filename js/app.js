@@ -1,89 +1,37 @@
 'use strict';
+// GLOBALS...
 // Hours labels
 var hoursLabels = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm'];
 
-// store objects:
-var store = [
-  {
-    name: '1st and Pike',
-    minCustomers: 23,
-    maxCustomers: 65,
-    avgCookiesPerCustomer: 6.3,
-    hourlyCookiesSold: [],
-    hourlyCustomers: function() {
-      // return randum # of customers between
-      // store's min and max values
-      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
-    },
-    simulateDailySales: function() {
-      // for each hour of operation multiply avg cookies
-      // per customer by random # of customers
-      for (var i = 0; i < hoursLabels.length; i++) {
-        this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
-      }
-    }
-  },
-  {
-    name: 'SeaTac Airport',
-    minCustomers: 3,
-    maxCustomers: 24,
-    avgCookiesPerCustomer: 1.2,
-    hourlyCookiesSold: [],
-    hourlyCustomers: function() {
-      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
-    },
-    simulateDailySales: function() {
-      for (var i = 0; i < hoursLabels.length; i++) {
-        this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
-      }
-    }
-  },
-  {
-    name: 'Seattle Center',
-    minCustomers: 11,
-    maxCustomers: 38,
-    avgCookiesPerCustomer: 3.7,
-    hourlyCookiesSold: [],
-    hourlyCustomers: function() {
-      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
-    },
-    simulateDailySales: function() {
-      for (var i = 0; i < hoursLabels.length; i++) {
-        this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
-      }
-    }
-  },
-  {
-    name: 'Capital Hill',
-    minCustomers: 20,
-    maxCustomers: 38,
-    avgCookiesPerCustomer: 2.3,
-    hourlyCookiesSold: [],
-    hourlyCustomers: function() {
-      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
-    },
-    simulateDailySales: function() {
-      for (var i = 0; i < hoursLabels.length; i++) {
-        this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
-      }
-    }
-  },
-  {
-    name: 'Alki',
-    minCustomers: 2,
-    maxCustomers: 16,
-    avgCookiesPerCustomer: 4.6,
-    hourlyCookiesSold: [],
-    hourlyCustomers: function() {
-      return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
-    },
-    simulateDailySales: function() {
-      for (var i = 0; i < hoursLabels.length; i++) {
-        this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
-      }
-    }
+// Store array of CookieStore objects
+var store = [];
+
+// CookieStore constructor and methods:
+function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
+  this.name = name;
+  this.minCustomers = minCustomers;
+  this.maxCustomers = maxCustomers;
+  this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.hourlyCookiesSold = [];
+}
+CookieStore.prototype.hourlyCustomers = function() {
+  // return randum # of customers between
+  // store's min and max values
+  return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
+};
+CookieStore.prototype.simulateDailySales = function() {
+  // for each hour of operation multiply avg cookies
+  // per customer by random # of customers
+  for (var i = 0; i < hoursLabels.length; i++) {
+    this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
   }
-];
+};
+
+store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
+store.push(new CookieStore('SeaTac Airport', 3, 24, 1.2));
+store.push(new CookieStore('Seattle Center', 11, 38, 3.7));
+store.push(new CookieStore('Capital Hill', 20, 38, 2.3));
+store.push(new CookieStore('Alki', 2, 16, 4.6));
 
 // Do the magic...
 simulateStoreSales();
