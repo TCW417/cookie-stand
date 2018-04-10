@@ -115,12 +115,15 @@ CookieStore.renderTableHeader = function() {
   var theadEl = document.getElementById('tableHeader');
   //create row
   var trEl = document.createElement('tr');
-  //create th elements
-  var thEl = document.createElement('th');
-  //add content
-  thEl.textContent = headings[0];
-  //append to row
-  trEl.appendChild(thEl);
+  //for each heading...
+  for (var thItem of headings) {
+    //create th elements
+    var thEl = document.createElement('th');
+    //add content
+    thEl.textContent = thItem;
+    //append to row
+    trEl.appendChild(thEl);
+  }
   //append row to header
   theadEl.appendChild(trEl);
 };
