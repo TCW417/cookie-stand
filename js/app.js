@@ -9,8 +9,11 @@ var store = [];
 // Sum of sales for all stores.
 var allStoresTotalCookieSales;
 
-// Hourly sales totals across all stores
-var hourlySalesTotal = [];
+// open hours for all stores. (don't like this but for now...)
+var openHours = 15;
+
+// Hourly sales totals for all locations
+var hourlyTotal = [];
 
 // CookieStore constructor and methods:
 function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
@@ -18,10 +21,9 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.minCustomers = minCustomers;
   this.maxCustomers = maxCustomers;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
-  this.openHours = 15;
   this.hourlyCookiesSold = [];
-  this.h2Element; //reference to store's heading for ul
-  this.ulElement; //reference to store's unordered list
+  // this.h2Element; //reference to store's heading for ul
+  // this.ulElement; //reference to store's unordered list
   this.simulateDailySales(); // fill hourlyCookiesSold with simulated data
 }
 CookieStore.prototype.hourlyCustomers = function() {
@@ -32,7 +34,7 @@ CookieStore.prototype.hourlyCustomers = function() {
 CookieStore.prototype.simulateDailySales = function() {
   // for each hour of operation multiply avg cookies
   // per customer by random # of customers
-  for (var i = 0; i < this.openHours; i++) {
+  for (var i = 0; i < openHours; i++) {
     this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
   }
 };
@@ -48,14 +50,12 @@ CookieStore.prototype.renderStoreHourlySales = function(tableRow) {
     totalCookiesSold += this.hourlyCookiesSold[j];
     //add table cell to row
     tableRow.appendChild(tdElement);
+    //capture hourly sales in hourlyTotal
+    hourlyTotal[j] += this.hourlyCookiesSold[j];
   }
   return totalCookiesSold;
 };
 CookieStore.prototype.renderStoreSales = function(tbodyEl) {
-  //format id tag names
-  // var storeId = 'store'+i;
-  // var storeH2Id = 'h2'+storeId;
-  // console.log('id tags', storeH2Id, storeId);
 
   //initialize daily total for this store
   var totalCookiesSold = 0;
@@ -75,9 +75,9 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   allStoresTotalCookieSales += totalCookiesSold;
 
   // output daily total
-  thEl = document.createElement('th');
-  thEl.textContent = totalCookiesSold;
-  trEl.appendChild(thEl);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalCookiesSold;
+  trEl.appendChild(tdEl);
   //append row to table
   tbodyEl.appendChild(trEl);
 };
@@ -86,6 +86,10 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
 CookieStore.renderSalesResults = function() {
   //initialize sales grand total
   allStoresTotalCookieSales = 0;
+  // zero hourlyTotal array
+  for (var z = 0; z < openHours; z++){
+    hourlyTotal[z] = 0;
+  }
   //render headings of the table
   CookieStore.renderTableHeader();
   //get table body element
@@ -149,9 +153,19 @@ CookieStore.renderTableFooter = function() {
   var thEl = document.createElement('th');
   thEl.textContent = 'Totals';
   trEl.appendChild(thEl);
-  //add hourly totals
 
-  //append row to footer
+  //add table cells to footer
+  for (var i in hourlyTotal){
+    var tdEl = document.createElement('td');
+    tdEl.textContent = hourlyTotal[i];
+    trEl.appendChild(tdEl);
+  }
+  //add grand friggin total
+  tdEl = document.createElement('td');
+  tdEl.textContent = allStoresTotalCookieSales;
+  trEl.appendChild(tdEl);
+
+  // append row to footer
   tfootEl.appendChild(trEl);
 };
 
