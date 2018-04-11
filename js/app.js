@@ -271,30 +271,43 @@ function onNewCookieStoreFormSubmitted(e) {
   // Prevent default browser behavior
   e.preventDefault();
   console.log('the form was submitted!');
+
   var formEl = e.target;
-  
+  // Values validated as numbers in browser but they're
+  // passed to us as strings. Covert to actual numbers so
+  // validation tests work correctly.
   var maxCustomers = parseInt(formEl.maxCustomers.value);
   var minCustomers = parseInt(formEl.minCustomers.value);
   var avgCookiesPerCustomer = parseFloat(formEl.avgCookiesPerCustomer.value);
-
   console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
+
+  // Validate store name
   if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
     alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
     formEl.name.value = '';
     document.getElementById('nameField').focus();
-  } else if (maxCustomers < 1) {
-    alert('Maximum Customers/Hr must be greater than or equal to 1.');
-    document.getElementById('maxField').focus();
-  } else if (minCustomers < 1) {
-    alert('Minimum Customers/Hr must be greater than or equal to 1.');
+  // Validate that max and min are in range
+  } else if (minCustomers < 1 || minCustomers > 300) {
+    alert('Minimum Customers/Hr must be between 1 and 300.');
+    formEl.minCustomers.value = '';
     document.getElementById('minField').focus();
+  } else if (maxCustomers < 1 || maxCustomers > 600) {
+    alert('Maximum Customers/Hr must be between 1 and 600.');
+    formEl.maxCustomers.value = '';
+    document.getElementById('maxField').focus();
+  // Validate that max is greater than min
   } else if (maxCustomers < minCustomers) {
     alert('Maximum Customers/Hr must be greater than or equal to Minimum Customers/Hr.');
+    formEl.minCustomers.value = '';
+    formEl.maxCustomers.value = '';
     document.getElementById('minField').focus();
+  // Validate that average is in range
   } else if (avgCookiesPerCustomer < 1 || avgCookiesPerCustomer > 50) {
     alert('Average cookies/customer/hr must be between 1 and 50.');
+    formEl.avgCookiesPerCustomer.value = '';
     document.getElementById('avgField').focus();
   } else {
+  // Data looks good. Create new store object and add to table.
     var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
     console.log(newStore);
 
