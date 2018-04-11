@@ -273,7 +273,7 @@ function onNewCookieStoreFormSubmitted(e) {
   console.log('the form was submitted!');
   var formEl = e.target;
 
-  var newStore = new CookieStore(formEl.name, formEl.minCustomers, formEl.maxCustomers, formEl.avgCookiesPerCustomer);
+  var newStore = new CookieStore(formEl.name.value, formEl.minCustomers.value, formEl.maxCustomers.value, formEl.avgCookiesPerCustomer.value);
   console.log(newStore);
 
   // Add rows to sales and staffing tables
