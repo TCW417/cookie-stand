@@ -31,15 +31,25 @@
   <form id="addStoreForm">
     <fieldset id=newStoreFieldSet>
       <legend>Add New Store</legend>
-      <label for="name">Store Name:</label>
-      <input type="text" name="name" required />
-      <label for="minCustomers">Minimum Customers/Hr:</label>
-      <input type="number" name="minCustomers" required />
-      <label for="maxCustomers">Maximum Customers/Hr:</label>
-      <input type="number" name="maxCustomers" required />
-      <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
-      <input type="number" step="any" name="avgCookiesPerCustomer" required />
-      <input type="submit" id="submitButton"/>
+      <div>
+        <label for="name">Store Name:</label>
+        <input type="text" name="name" required pattern="[A-Za-z0-9 ]{4,16}"/>
+      </div>
+      <div>
+        <label for="minCustomers">Minimum Customers/Hr:</label>
+        <input type="number" name="minCustomers" required />
+      </div>
+      <div>
+        <label for="maxCustomers">Maximum Customers/Hr:</label>
+        <input type="number" name="maxCustomers" required />
+      </div>
+      <div>
+        <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
+        <input type="number" step="any" name="avgCookiesPerCustomer" required />
+      </div>
+      <div>
+        <input type="submit" id="submitButton"/>
+      </div>
     </fieldset>
   </form> 
   <script src="js/app.js"></script>

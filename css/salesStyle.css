@@ -111,21 +111,30 @@ form {
   line-height: 150%;
 }
 
-label {
-  width: 20%;
+legend {
+  font-family: 'East Sea Dokdo', cursive;
+  font-size: 200%;
+}
+fieldset div {
   text-align: right;
-  display: block;
-  float: left;
-}
-label:nth-of-type(odd) {
-
+  margin-right:40%;
 }
 
-input {
+fieldset div:last-child {
+  margin: auto;
+}
+
+label {
+  /* display: block; */
+  width: 40%;
+  text-align: right;
+}
+
+/* input {
   width: 20%;
   display: block;
   float: left;
-}
+}  */
 
 #submitButton {
   clear: both;
