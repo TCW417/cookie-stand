@@ -282,6 +282,8 @@ function onNewCookieStoreFormSubmitted(e) {
 
   // Clear form fields
   document.forms['addStoreForm'].reset();
+  // Return focus to first field
+  document.getElementById('firstField').focus();
 }
 
 // Attach listener function to add store form submit button
