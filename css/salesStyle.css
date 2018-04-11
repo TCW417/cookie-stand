@@ -38,11 +38,13 @@ h2 {
 
 li {
   font-family: sans-serif;
+  font-size: 140%;
 }
 
 p {
   font-family: Georgia, 'Times New Roman', Times, serif;
   color: #3C3225;
+  font-size: 150%;
   margin: 8px;
 }
 

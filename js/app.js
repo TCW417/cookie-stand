@@ -280,12 +280,19 @@ function onNewCookieStoreFormSubmitted(e) {
   console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
   if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
     alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
+    formEl.name.value = '';
     document.getElementById('nameField').focus();
+  } else if (maxCustomers < 1) {
+    alert('Maximum Customers/Hr must be greater than or equal to 1.');
+    document.getElementById('maxField').focus();
+  } else if (minCustomers < 1) {
+    alert('Minimum Customers/Hr must be greater than or equal to 1.');
+    document.getElementById('minField').focus();
   } else if (maxCustomers < minCustomers) {
     alert('Maximum Customers/Hr must be greater than or equal to Minimum Customers/Hr.');
     document.getElementById('minField').focus();
-  } else if (avgCookiesPerCustomer < 1 || avgCookiesPerCustomer > 144) {
-    alert('Average cookies/customer/hr must be between 1 and 144.');
+  } else if (avgCookiesPerCustomer < 1 || avgCookiesPerCustomer > 50) {
+    alert('Average cookies/customer/hr must be between 1 and 50.');
     document.getElementById('avgField').focus();
   } else {
     var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
