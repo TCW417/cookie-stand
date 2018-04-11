@@ -279,12 +279,16 @@ function onNewCookieStoreFormSubmitted(e) {
   // Add rows to sales and staffing tables
   newStore.renderStoreSalesTableRow(); // Add row to sales table
   newStore.renderStoreStaffingTableRow(); // Add row to staffing table
+
+  // Clear form fields
+  document.forms['addStoreForm'].reset();
 }
 
 // Attach listener function to add store form submit button
 var addStoreFormEl = document.getElementById('addStoreForm');
 addStoreFormEl.addEventListener('submit', onNewCookieStoreFormSubmitted);
 
+// **************** Add Initial Stores and Render Tables ******************
 // Instantiate each store with stats provided by business owner:
 // store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
 new CookieStore('1st and Pike', 23, 65, 6.3);

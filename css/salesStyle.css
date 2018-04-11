@@ -102,3 +102,35 @@ tfoot tr {
 table.staffing td:last-child {
   font-weight: normal;
 }
+
+form {
+  font-family: sans-serif;
+  background-color: #E1962B;
+  margin: 8px;
+  margin-top: 15px;
+  line-height: 150%;
+}
+
+label {
+  width: 20%;
+  text-align: right;
+  display: block;
+  float: left;
+}
+label:nth-of-type(odd) {
+
+}
+
+input {
+  width: 20%;
+  display: block;
+  float: left;
+}
+
+#submitButton {
+  clear: both;
+  display: block;
+  text-align: center;
+  width: 80px;
+  margin: 8px auto 8px auto;
+}
