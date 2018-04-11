@@ -47,10 +47,8 @@ CookieStore.prototype.renderStoreHourlySales = function(tableRow) {
   var totalCookiesSold = 0;
   // For each hour of store operation
   for (var j in this.hourlyCookiesSold) {
-    // Create a table data element
-    var tdElement = document.createElement('td');
-    // Give it content
-    tdElement.textContent = this.hourlyCookiesSold[j];
+    // Create a table data element and add content
+    var tdElement = createTextElement('td', this.hourlyCookiesSold[j]);
     // Update daily total
     totalCookiesSold += this.hourlyCookiesSold[j];
     // Add table cell to row
@@ -73,8 +71,7 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   var trEl = document.createElement('tr');
 
   // Append a header cell with store name to the row
-  var thEl = document.createElement('th');
-  thEl.textContent = this.name;
+  var thEl = createTextElement('th', this.name);
   trEl.appendChild(thEl);
 
   // Render hourly results for the store
@@ -84,8 +81,7 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   allStoresTotalCookieSales += totalCookiesSold;
 
   // Output daily total to end of row
-  var tdEl = document.createElement('td');
-  tdEl.textContent = totalCookiesSold;
+  var tdEl = createTextElement('td', totalCookiesSold);
   trEl.appendChild(tdEl);
 
   // Append row to table
@@ -152,9 +148,7 @@ CookieStore.renderTableHeader = function() {
   // For each heading...
   for (var thItem of headings) {
     // Create th elements
-    var thEl = document.createElement('th');
-    // Add content
-    thEl.textContent = thItem;
+    var thEl = createTextElement('th', thItem);
     // Append to row
     trEl.appendChild(thEl);
   }
@@ -170,19 +164,16 @@ CookieStore.renderTableFooter = function() {
   // Start row
   var trEl = document.createElement('tr');
   // Add header cell
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Totals';
+  var thEl = createTextElement('th', 'Totals');
   trEl.appendChild(thEl);
 
   // Add hourly total table cells to footer
   for (var i in hourlyTotal){
-    var tdEl = document.createElement('td');
-    tdEl.textContent = hourlyTotal[i];
+    var tdEl = createTextElement('td', hourlyTotal[i]);
     trEl.appendChild(tdEl);
   }
   // Add grand total
-  tdEl = document.createElement('td');
-  tdEl.textContent = allStoresTotalCookieSales;
+  tdEl = createTextElement('td', allStoresTotalCookieSales);
   trEl.appendChild(tdEl);
 
   // Append row to footer
@@ -193,12 +184,8 @@ CookieStore.renderTableFooter = function() {
 CookieStore.prototype.renderStoreHourlyStaffingEstimate = function(tableRow) {
   // For each hour of operation
   for (var j in this.hourlyStaffingEstimate) {
-    // Create a table data element
-    var tdElement = document.createElement('td');
-    // Give it content
-    tdElement.textContent = this.hourlyStaffingEstimate[j];
-    // Add table cell to row
-    tableRow.appendChild(tdElement);
+    // Create a table data element and append to table row
+    tableRow.appendChild(createTextElement('td', this.hourlyStaffingEstimate[j]));
   }
   return;
 };
@@ -209,8 +196,7 @@ CookieStore.prototype.renderStoreStaffingEstimate = function(tbodyEl) {
   var trEl = document.createElement('tr');
 
   // Append a header cell with store name to the row
-  var thEl = document.createElement('th');
-  thEl.textContent = this.name;
+  var thEl = createTextElement('th', this.name);
   trEl.appendChild(thEl);
 
   // Render hourly staffing needed for the store
@@ -252,17 +238,21 @@ CookieStore.renderStaffingTableHeader = function() {
 
   //for each heading...
   for (var thItem of headings) {
-    //create th elements
-    var thEl = document.createElement('th');
-    //add content
-    thEl.textContent = thItem;
-    //append to row
-    trEl.appendChild(thEl);
+    //create th elements row
+    trEl.appendChild(createTextElement('th',thItem));
   }
 
   //append row to header
   theadEl.appendChild(trEl);
 };
+
+// ************* Helper Functions **************
+// create an element that takes a textContent property
+function createTextElement(tag, textString) {
+  var el = document.createElement(tag);
+  el.textContent = textString;
+  return el;
+}
 
 // Instantiate each store with stats provided by business owner:
 // store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
