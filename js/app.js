@@ -141,6 +141,7 @@ CookieStore.renderTableHeader = function() {
   for (var i of hoursLabels) {
     headings.push(i);
   }
+
   headings.push('Daily Location Total');
 
   // Get reference to table header
