@@ -33,19 +33,19 @@
       <legend>Add New Store</legend>
       <div>
         <label for="name">Store Name:</label>
-        <input type="text" name="name" required pattern="[A-Za-z0-9 ]{4,16}" id="firstField"/>
+        <input type="text" name="name" required  id="nameField"/><span>(Letters & Numbers, 4 to 16 characters)</span>
       </div>
       <div>
         <label for="minCustomers">Minimum Customers/Hr:</label>
-        <input type="number" name="minCustomers" required />
+        <input type="number" name="minCustomers" required id="minField" /><span> (1 to 60)</span>
       </div>
       <div>
         <label for="maxCustomers">Maximum Customers/Hr:</label>
-        <input type="number" name="maxCustomers" required />
+        <input type="number" name="maxCustomers" required id="maxField" /><span> (1 to 360 and >Minimum)</span>
       </div>
       <div>
         <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
-        <input type="number" step="any" name="avgCookiesPerCustomer" required />
+        <input type="number" step="any" name="avgCookiesPerCustomer" required id="avgField" /><span> (1 to 144)</span>
       </div>
       <div>
         <input type="submit" id="submitButton"/>

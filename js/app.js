@@ -272,18 +272,40 @@ function onNewCookieStoreFormSubmitted(e) {
   e.preventDefault();
   console.log('the form was submitted!');
   var formEl = e.target;
+  
+  var maxCustomers = parseInt(formEl.maxCustomers.value);
+  var minCustomers = parseInt(formEl.minCustomers.value);
+  var avgCookiesPerCustomer = parseFloat(formEl.avgCookiesPerCustomer.value);
 
-  var newStore = new CookieStore(formEl.name.value, formEl.minCustomers.value, formEl.maxCustomers.value, formEl.avgCookiesPerCustomer.value);
-  console.log(newStore);
+  console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
+  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
+    alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
+    document.getElementById('nameField').focus();
+  } else if (maxCustomers < minCustomers) {
+    alert('Maximum Customers/Hr must be greater than or equal to Minimum Customers/Hr.');
+    document.getElementById('minField').focus();
+  } else if (avgCookiesPerCustomer < 1 || avgCookiesPerCustomer > 144) {
+    alert('Average cookies/customer/hr must be between 1 and 144.');
+    document.getElementById('avgField').focus();
+  } else {
+    var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
+    console.log(newStore);
 
-  // Add rows to sales and staffing tables
-  newStore.renderStoreSalesTableRow(); // Add row to sales table
-  newStore.renderStoreStaffingTableRow(); // Add row to staffing table
+    // Add rows to sales and staffing tables
+    newStore.renderStoreSalesTableRow(); // Add row to sales table
+    newStore.renderStoreStaffingTableRow(); // Add row to staffing table
 
+    clearAndResetForm();
+  }
+  console.log('Exiting listener function');
+}
+
+// Clear form and return focus to first text input box
+function clearAndResetForm() {
   // Clear form fields
   document.forms['addStoreForm'].reset();
   // Return focus to first field
-  document.getElementById('firstField').focus();
+  document.getElementById('nameField').focus();
 }
 
 // Attach listener function to add store form submit button
