@@ -28,6 +28,30 @@
       <tbody id="staffingTableBody"></tbody>
       <tfoot id="staffingTableFooter"></tfoot>
   </table>
-    
+  <h2>Add a New Store</h2>
+  <form id="addStoreForm">
+    <fieldset id=newStoreFieldSet>
+      <!-- <legend>Add New Store</legend> -->
+      <div>
+        <label for="name">Store Name:</label>
+        <input type="text" name="name" required  id="nameField"/>
+      </div>
+      <div>
+        <label for="minCustomers">Minimum Customers/Hr:</label>
+        <input type="number" name="minCustomers" required id="minField" />
+      </div>
+      <div>
+        <label for="maxCustomers">Maximum Customers/Hr:</label>
+        <input type="number" name="maxCustomers" required id="maxField" />
+      </div>
+      <div>
+        <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
+        <input type="number" step="any" name="avgCookiesPerCustomer" required id="avgField" />
+      </div>
+      <div>
+        <input type="submit" id="submitButton"/>
+      </div>
+    </fieldset>
+  </form> 
   <script src="js/app.js"></script>
 </body>

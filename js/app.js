@@ -22,6 +22,7 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.hourlyStaffingEstimate = [];
   this.simulateDailySales(); // fill hourlyCookiesSold and
   // hourlyStaffingEstimate with simulated data
+  store.push(this); // push this store into (onto?) the global store array
 }
 
 // Return randum # of customers per hour between stores min amd max values
@@ -42,7 +43,7 @@ CookieStore.prototype.simulateDailySales = function() {
   }
 };
 
-// Render this store's hourly sales data as a table row
+// Add this store's hourly sales data to a table row
 CookieStore.prototype.renderStoreHourlySales = function(tableRow) {
   var totalCookiesSold = 0;
   // For each hour of store operation
@@ -60,7 +61,7 @@ CookieStore.prototype.renderStoreHourlySales = function(tableRow) {
   return totalCookiesSold;
 };
 
-// Render all of this store's sales data.
+// Render all of this store's sales data. Append to table body.
 CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   // Parameter tbodyEl references table body onto which rows will be appended.
 
@@ -77,15 +78,57 @@ CookieStore.prototype.renderStoreSales = function(tbodyEl) {
   // Render hourly results for the store
   totalCookiesSold += this.renderStoreHourlySales(trEl);
 
-  // Done with this store. Add its sales to overall total
-  allStoresTotalCookieSales += totalCookiesSold;
-
   // Output daily total to end of row
   var tdEl = createTextElement('td', totalCookiesSold);
   trEl.appendChild(tdEl);
 
   // Append row to table
   tbodyEl.appendChild(trEl);
+
+  // Done with this store. Add its sales to overall total
+  allStoresTotalCookieSales += totalCookiesSold;
+
+};
+
+// Render row for one store. Use this method to add new store objects to table
+CookieStore.prototype.renderStoreSalesTableRow = function(){
+  // Get table body element
+  var tbodyEl = document.getElementById('tableBody');
+  this.renderStoreSales(tbodyEl);
+};
+
+// Render this store's hourly staffing estimate
+CookieStore.prototype.renderStoreHourlyStaffingEstimate = function(tableRow) {
+  // For each hour of operation
+  for (var j in this.hourlyStaffingEstimate) {
+    // Create a table data element and append to table row
+    tableRow.appendChild(createTextElement('td', this.hourlyStaffingEstimate[j]));
+  }
+  return;
+};
+
+// Render this store's total staffing estimate
+CookieStore.prototype.renderStoreStaffingEstimate = function(tbodyEl) {
+  // Create a row for this store
+  var trEl = document.createElement('tr');
+
+  // Append a header cell with store name to the row
+  var thEl = createTextElement('th', this.name);
+  trEl.appendChild(thEl);
+
+  // Render hourly staffing needed for the store
+  this.renderStoreHourlyStaffingEstimate(trEl);
+
+  // Rppend row to table
+  tbodyEl.appendChild(trEl);
+};
+
+// Render Staffing data row for one store.
+// Use this method to add new store objects to Staffing table
+CookieStore.prototype.renderStoreStaffingTableRow = function(){
+  // Get table body element
+  var tbodyEl = document.getElementById('staffingTableBody');
+  this.renderStoreStaffingEstimate(tbodyEl);
 };
 
 // *********** CookieStore Constructor Methods **************
@@ -101,12 +144,9 @@ CookieStore.renderSalesResults = function() {
   // Render headings of the table
   CookieStore.renderTableHeader();
 
-  // Get table body element
-  var tbodyEl = document.getElementById('tableBody');
-
-  // Loop through stores rendering their sales
+  // Render rows for each store
   for (var i of store) {
-    i.renderStoreSales(tbodyEl);
+    i.renderStoreSalesTableRow();
   }
 
   // Render table footer (hourly totals)
@@ -180,43 +220,14 @@ CookieStore.renderTableFooter = function() {
   tfootEl.appendChild(trEl);
 };
 
-// Render this store's hourly staffing estimate
-CookieStore.prototype.renderStoreHourlyStaffingEstimate = function(tableRow) {
-  // For each hour of operation
-  for (var j in this.hourlyStaffingEstimate) {
-    // Create a table data element and append to table row
-    tableRow.appendChild(createTextElement('td', this.hourlyStaffingEstimate[j]));
-  }
-  return;
-};
-
-// Render this store's total staffing estimate
-CookieStore.prototype.renderStoreStaffingEstimate = function(tbodyEl) {
-  // Create a row for this store
-  var trEl = document.createElement('tr');
-
-  // Append a header cell with store name to the row
-  var thEl = createTextElement('th', this.name);
-  trEl.appendChild(thEl);
-
-  // Render hourly staffing needed for the store
-  this.renderStoreHourlyStaffingEstimate(trEl);
-
-  // Rppend row to table
-  tbodyEl.appendChild(trEl);
-};
-
 // Render company-wide staffing estimate...
 CookieStore.renderStaffingEstimate = function() {
   // Render headings of the table
   CookieStore.renderStaffingTableHeader();
 
-  // Get table body element
-  var tbodyEl = document.getElementById('staffingTableBody');
-
   //loop through stores rendering their sales
   for (var i of store) {
-    i.renderStoreStaffingEstimate(tbodyEl);
+    i.renderStoreStaffingTableRow();
   }
 };
 
@@ -254,13 +265,81 @@ function createTextElement(tag, textString) {
   return el;
 }
 
+// ************** Event Listener Functions **************
+// Action taken on submit event on addNewStore form
+function onNewCookieStoreFormSubmitted(e) {
+  // Prevent default browser behavior
+  e.preventDefault();
+  console.log('the form was submitted!');
+
+  var formEl = e.target;
+  // Values validated as numbers in browser but they're
+  // passed to us as strings. Covert to actual numbers so
+  // validation tests work correctly.
+  var maxCustomers = parseInt(formEl.maxCustomers.value);
+  var minCustomers = parseInt(formEl.minCustomers.value);
+  var avgCookiesPerCustomer = parseFloat(formEl.avgCookiesPerCustomer.value);
+  console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
+
+  // Validate store name
+  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
+    alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
+    formEl.name.value = '';
+    document.getElementById('nameField').focus();
+  // Validate that max and min are in range
+  } else if (minCustomers < 1 || minCustomers > 300) {
+    alert('Minimum Customers/Hr must be between 1 and 300.');
+    formEl.minCustomers.value = '';
+    document.getElementById('minField').focus();
+  } else if (maxCustomers < 1 || maxCustomers > 600) {
+    alert('Maximum Customers/Hr must be between 1 and 600.');
+    formEl.maxCustomers.value = '';
+    document.getElementById('maxField').focus();
+  // Validate that max is greater than min
+  } else if (maxCustomers < minCustomers) {
+    alert('Maximum Customers/Hr must be greater than or equal to Minimum Customers/Hr.');
+    formEl.minCustomers.value = '';
+    formEl.maxCustomers.value = '';
+    document.getElementById('minField').focus();
+  // Validate that average is in range
+  } else if (avgCookiesPerCustomer < 1 || avgCookiesPerCustomer > 50) {
+    alert('Average cookies/customer/hr must be between 1 and 50.');
+    formEl.avgCookiesPerCustomer.value = '';
+    document.getElementById('avgField').focus();
+  } else {
+  // Data looks good. Create new store object and add to table.
+    var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
+    console.log(newStore);
+
+    // Add rows to sales and staffing tables
+    newStore.renderStoreSalesTableRow(); // Add row to sales table
+    newStore.renderStoreStaffingTableRow(); // Add row to staffing table
+
+    clearAndResetForm();
+  }
+  console.log('Exiting listener function');
+}
+
+// Clear form and return focus to first text input box
+function clearAndResetForm() {
+  // Clear form fields
+  document.forms['addStoreForm'].reset();
+  // Return focus to first field
+  document.getElementById('nameField').focus();
+}
+
+// Attach listener function to add store form submit button
+var addStoreFormEl = document.getElementById('addStoreForm');
+addStoreFormEl.addEventListener('submit', onNewCookieStoreFormSubmitted);
+
+// **************** Add Initial Stores and Render Tables ******************
 // Instantiate each store with stats provided by business owner:
 // store name, minCustomers/hr, maxCustomers/hr, avg cookies purchased per customer
-store.push(new CookieStore('1st and Pike', 23, 65, 6.3));
-store.push(new CookieStore('SeaTac Airport', 3, 24, 1.2));
-store.push(new CookieStore('Seattle Center', 11, 38, 3.7));
-store.push(new CookieStore('Capital Hill', 20, 38, 2.3));
-store.push(new CookieStore('Alki', 2, 16, 4.6));
+new CookieStore('1st and Pike', 23, 65, 6.3);
+new CookieStore('SeaTac Airport', 3, 24, 1.2);
+new CookieStore('Seattle Center', 11, 38, 3.7);
+new CookieStore('Capital Hill', 20, 38, 2.3);
+new CookieStore('Alki', 2, 16, 4.6);
 
 // Render html
 CookieStore.renderSalesResults();
