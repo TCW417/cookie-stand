@@ -1,9 +1,10 @@
-* {
-  max-width: 960px;
-}
 
 body {
   background-color: #AA7B39;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
 }
 
 .container {
@@ -68,7 +69,6 @@ h1+p {
 }
 
 table {
-  border: 4px solid #3c3225;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -76,27 +76,36 @@ table {
   border-radius: 10px;
 }
 
-thead tr th:first-child {
+table.default {
+  border: 4px solid #3c3225;
+}
+
+table.linePrinter {
+  border 4px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+table.default thead tr th:first-child {
   border-top-left-radius: 8px;
 }
 
-thead tr th:last-child {
+table.defalt thead tr th:last-child {
   border-top-right-radius: 8px;
 }
 
-tfoot tr th:first-child {
+table.default tfoot tr th:first-child {
   border-bottom-left-radius: 8px;
 }
 
-tfoot tr td:last-child {
+table.default tfoot tr td:last-child {
   border-bottom-right-radius: 8px;
 }
 
-tbody[id^="staffing"] tr:last-child td:last-child {
+table.default tbody[id^="staffing"] tr:last-child td:last-child {
   border-bottom-right-radius: 8px;
 }
 
-tbody[id^="staffing"] tr:last-child th {
+table.default tbody[id^="staffing"] tr:last-child th {
   border-bottom-left-radius: 8px;
 }
 
@@ -181,4 +190,7 @@ label {
   text-align: center;
   width: 80px;
   margin: 8px auto 8px auto;
+}
+ul {
+  overflow-y:au
 }
