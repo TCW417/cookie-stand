@@ -76,6 +76,10 @@ table {
   border-radius: 10px;
 }
 
+th, td {
+  border-radius: 5px;
+}
+
 th {
   background-color: beige;
   font-family: sans-serif;
