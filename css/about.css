@@ -1,0 +1,17 @@
+main div:nth-of-type(2) img {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-right: 15px;
+  width: 450px;
+  float: left;
+}
+main div:nth-of-type(3) {
+  margin-top: 10px;
+}
+
+footer div {
+  background-color: rgb(212, 184, 145);
+  width: 960px;
+  height: 70px;
+  margin: inherit;
+}

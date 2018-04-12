@@ -74,6 +74,7 @@ div.column1 li {
   overflow: auto;
   margin-top: 30px;
   margin-right: 13px;
+  margin-bottom: 30px;
   border: 2px solid #3C3225;
   border-radius: 4px;
 }
@@ -89,6 +90,9 @@ div.column1 li {
   line-height: 140%;
 }
 
+.storeHeight {
+  height: 650px;
+}
 .noRight {
   margin-right: 0px;
 }
