@@ -76,20 +76,42 @@ table {
   border-radius: 10px;
 }
 
-th, td {
-  border-radius: 5px;
+thead tr th:first-child {
+  border-top-left-radius: 8px;
+}
+
+thead tr th:last-child {
+  border-top-right-radius: 8px;
+}
+
+tfoot tr th:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+tfoot tr td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+tbody[id^="staffing"] tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+tbody[id^="staffing"] tr:last-child th {
+  border-bottom-left-radius: 8px;
 }
 
 th {
   background-color: beige;
   font-family: sans-serif;
   line-height: 150%;
+  border-radius: 4px;
 }
 
 td {
   text-align: center;
   font-family: sans-serif;
   line-height: 150%;
+  border-radius: 4px;
 }
 
 td:last-child {
