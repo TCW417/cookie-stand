@@ -5,10 +5,6 @@ body {
   margin-right: auto;
 }
 
-/* main {
-  font-size: 0px;
-} */
-
 h1 {
   font-family: 'East Sea Dokdo', cursive;
   font-size: 600%;
@@ -65,10 +61,6 @@ div.column1 li {
   margin-top: 10px;
 }
 
-/* div.column1 {
-  background-color: rgb(235, 166, 178);
-} */
-
 .inlineLogoType {
   font-family: 'East Sea Dokdo', cursive;
   font-size: 160%;
@@ -101,15 +93,6 @@ div.column1 li {
   margin-right: 0px;
 }
 
-.column1 {
-  float: left;
-  width: 70%;
-}
-.sidebar {
-  float: right;
-  background-color: beige;
-}
-
 #blog h2 {
   text-align: center;
   line-height: 100%;
@@ -128,13 +111,13 @@ div.sidebar {
 
 }
 
-
 header {
   position: fixed;
   background-color: rgb(212, 184, 145);
   width: 960px;
   margin: inherit;
   z-index: 10;
+  
 }
 
 footer {
