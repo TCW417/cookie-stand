@@ -142,7 +142,7 @@ CookieStore.renderSalesResults = function() {
   }
 
   // Render headings of the table
-  CookieStore.renderTableHeader();
+  CookieStore.renderSalesTableHeader();
 
   // Render rows for each store
   for (var i of store) {
@@ -150,7 +150,7 @@ CookieStore.renderSalesResults = function() {
   }
 
   // Render table footer (hourly totals)
-  CookieStore.renderTableFooter();
+  CookieStore.renderSalesTableFooter();
 
   // Done with individual store data. Add additional information to page.
   // Plug date stamp into html
@@ -167,7 +167,7 @@ CookieStore.renderSalesResults = function() {
 };
 
 // Render sales table header
-CookieStore.renderTableHeader = function() {
+CookieStore.renderSalesTableHeader = function() {
   // Create headings for table columns
   var headings = ['Location'];
   var hoursLabels = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm'];
@@ -195,7 +195,7 @@ CookieStore.renderTableHeader = function() {
 };
 
 // Render sales table footer
-CookieStore.renderTableFooter = function() {
+CookieStore.renderSalesTableFooter = function() {
   // Get table footer
   var tfootEl = document.getElementById('tableFooter');
   // Start row
@@ -215,6 +215,39 @@ CookieStore.renderTableFooter = function() {
 
   // Append row to footer
   tfootEl.appendChild(trEl);
+
+  // Figure out background color for footer row
+  var tableClass = document.getElementById('salesDataTable').className;
+  var lightLine, darkLine;
+  console.log('table class', tableClass);
+  // First (header) row is dark color. Alternating lines are light
+  // If store.length + 1 (for header) is even
+  //   make footer background dark (it's an odd row)
+  // else
+  //   make it light colored
+  console.log(' footer row mod',(store.length + 1) % 2);
+  console.log(' initial td background color', tfootEl.getElementsByTagName('td')[0].style.backgroundColor);
+  if (tableClass === 'default') {
+    darkLine = '#E1962B';
+    lightLine = 'beige';
+  } else {
+    darkLine = 'lightgreen';
+    lightLine = '#eee';
+  }
+  if ((store.length + 1) % 2 === 0) {
+    tfootEl.style.backgroundColor = darkLine;
+    console.log('mod == 0, background to ',darkLine);
+  } else {
+    tfootEl.style.backgroundColor = lightLine;
+    console.log('mod <> 0 background to', lightLine);
+  }
+  console.log('footer background color set to', tfootEl.style.backgroundColor);
+};
+
+CookieStore.updateSalesTableFooter = function() {
+  //Delete and re-render sales table footer
+  document.getElementById('tableFooter').deleteRow(0);
+  CookieStore.renderSalesTableFooter();
 };
 
 // Render company-wide staffing estimate...
@@ -311,6 +344,7 @@ function onNewCookieStoreFormSubmitted(e) {
 
     // Add rows to sales and staffing tables
     newStore.renderStoreSalesTableRow(); // Add row to sales table
+    CookieStore.updateSalesTableFooter(); // update footer of sales data table
     newStore.renderStoreStaffingTableRow(); // Add row to staffing table
 
     clearAndResetForm();
