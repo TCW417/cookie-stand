@@ -11,13 +11,13 @@
   </div>
   <h1>Sales Statistics Page</h1>
   <p class="salesTotal">Sales statistics as of <span id="todaysDate"></span></p>
-  <table class="linePrinter">
+  <table id="salesDataTable" class="default">
     <thead id="tableHeader"></thead>
     <tbody id="tableBody"></tbody>
     <tfoot id="tableFooter"></tfoot>
   </table>
   <p class="salesTotal">Total sales for all stores: <span id="allStoreSales"></span> cookies.</p>
-  <div><button name="changeCss" value="default">Change to Default Style</button></div>
+  <div><button id="changeCss" name="changeCss" value="default">Change to Line Printer Style</button></div>
   <h2>Staffing Estimates</h2>
   <p>The table below estimates store staffing based on the following assumptions:</p>
   <ul>
