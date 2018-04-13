@@ -182,6 +182,7 @@ label {
   clear: both;
   display: block;
   text-align: center;
+  border-radius: 10px;
   width: 80px;
   margin: 8px auto 8px auto;
 }
