@@ -1,5 +1,5 @@
 
-body {
+/* body {
   background-color: #AA7B39;
   max-width: 960px;
   margin-left: auto;
@@ -35,9 +35,9 @@ h2 {
   line-height: 50px;
   margin: 8px 8px;
   color: #FF9A0B;
-}
+} */
 
-li {
+/* li {
   font-family: sans-serif;
   font-size: 140%;
 }
@@ -47,14 +47,14 @@ p {
   color: #3C3225;
   font-size: 150%;
   margin: 8px;
-}
+} */
 
-h1+p {
+/* h1+p {
   text-align: center;
-  /* font-family: Georgia, 'Times New Roman', Times, serif; */
+  /* font-family: Georgia, 'Times New Roman', Times, serif; 
   font-size: 175%;
   margin: 0px 8px;
-}
+} */
 
 .storeSales {
   width: 19%;
@@ -73,6 +73,8 @@ table {
   margin-right: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-size: 100%;
+  border-collapse: unset;
 }
 
 table.default {
@@ -85,9 +87,11 @@ table.linePrinter {
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
   background-color: #eee;
+  width: 100%;
 }
 table.linePrinter th {
   font-weight: bold;
+  line-height: 170%;
 }
 table.linePrinter tbody tr:nth-of-type(odd) {
   background-color: lightgreen;
@@ -121,14 +125,16 @@ table.default th {
   background-color: beige;
   font-family: sans-serif;
   line-height: 150%;
-  border-radius: 4px;
+  padding: 4px;
+  border-radius: 6px;
 }
 
 table.default td {
   text-align: center;
   font-family: sans-serif;
   line-height: 150%;
-  border-radius: 4px;
+  padding: 4px;
+  border-radius: 6px;
 }
 
 table.default td:last-child {

@@ -1,57 +1,80 @@
-<!DOCTYPE html>
 <head>
-  <title>Salmon Cookies Sales</title>
+  <title>Salmon Cookies Sales Page</title>
   <link href="https://fonts.googleapis.com/css?family=East+Sea+Dokdo" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/salesStyle.css">
 </head>
 <body>
-  <div class="container">
-      <img src="img/salmon.png" alt="Picture of salmon" width="100%" />
-      <h1 class="centered">Salmon Cookies</h1>
-  </div>
-  <h1>Sales Statistics Page</h1>
-  <p class="salesTotal">Sales statistics as of <span id="todaysDate"></span></p>
-  <table id="salesDataTable" class="default">
-    <thead id="tableHeader"></thead>
-    <tbody id="tableBody"></tbody>
-    <tfoot id="tableFooter"></tfoot>
-  </table>
-  <p class="salesTotal">Total sales for all stores: <span id="allStoreSales"></span> cookies.</p>
-  <div><button id="changeCss" name="changeCss" value="default">Change to Line Printer Style</button></div>
-  <h2>Staffing Estimates</h2>
-  <p>The table below estimates store staffing based on the following assumptions:</p>
-  <ul>
-    <li>Each store should have a minimum of 2 employess on staff at all times</li>
-    <li>Each employee can produce on average 20 cookies per hour</li>
-  </ul>
-  <table class="staffing default">
-      <thead id="staffingTableHeader"></thead>
-      <tbody id="staffingTableBody"></tbody>
-  </table>
-  <h2>Add a New Store</h2>
-  <form id="addStoreForm">
-    <fieldset id=newStoreFieldSet>
-      <!-- <legend>Add New Store</legend> -->
-      <div>
-        <label for="name">Store Name:</label>
-        <input type="text" name="name" required  id="nameField"/>
-      </div>
-      <div>
-        <label for="minCustomers">Minimum Customers/Hr:</label>
-        <input type="number" name="minCustomers" required id="minField" />
-      </div>
-      <div>
-        <label for="maxCustomers">Maximum Customers/Hr:</label>
-        <input type="number" name="maxCustomers" required id="maxField" />
-      </div>
-      <div>
-        <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
-        <input type="number" step="0.1" name="avgCookiesPerCustomer" required id="avgField" />
-      </div>
-      <div>
-        <input type="submit" id="submitButton"/>
-      </div>
-    </fieldset>
-  </form> 
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="locations.html">Locations</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="online-store.html">Online Store</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="sales.html" class="active">Sales Info</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div id="logo" class="container">
+        <img src="img/salmon.png" alt="Salmon Cookies logo" width="100%" />
+        <h1 class="centered">Salmon Cookies</h1>
+    </div>
+    <h1>Sales Statistics Page</h1>
+    <p class="salesTotal">Sales statistics as of <span id="todaysDate"></span></p>
+    <table id="salesDataTable" class="default">
+      <thead id="tableHeader"></thead>
+      <tbody id="tableBody"></tbody>
+      <tfoot id="tableFooter"></tfoot>
+    </table>
+    <p class="salesTotal">Total sales for all stores: <span id="allStoreSales"></span> cookies.</p>
+    <div>
+      <button id="changeCss" name="changeCss" value="default">Change to Line Printer Style</button>
+    </div>
+    <h2>Staffing Estimates</h2>
+    <p>The table below estimates store staffing based on the following assumptions:</p>
+    <ul>
+      <li>Each store should have a minimum of 2 employess on staff at all times</li>
+      <li>Each employee can produce on average 20 cookies per hour</li>
+    </ul>
+    <table class="staffing default">
+        <thead id="staffingTableHeader"></thead>
+        <tbody id="staffingTableBody"></tbody>
+    </table>
+    <h2>Add a New Store</h2>
+    <form id="addStoreForm">
+      <fieldset id=newStoreFieldSet>
+        <!-- <legend>Add New Store</legend> -->
+        <div>
+          <label for="name">Store Name:</label>
+          <input type="text" name="name" required  id="nameField"/>
+        </div>
+        <div>
+          <label for="minCustomers">Minimum Customers/Hr:</label>
+          <input type="number" name="minCustomers" required id="minField" />
+        </div>
+        <div>
+          <label for="maxCustomers">Maximum Customers/Hr:</label>
+          <input type="number" name="maxCustomers" required id="maxField" />
+        </div>
+        <div>
+          <label for="avgCookiesPerCustomer">Average Cookies Purchased/Customer:</label>
+          <input type="number" step="0.1" name="avgCookiesPerCustomer" required id="avgField" />
+        </div>
+        <div>
+          <input type="submit" id="submitButton"/>
+        </div>
+      </fieldset>
+    </form> 
+  </main>
+  <footer>
+    <div>
+      <p>We're open Monday through Friday, 6am to 9pm.</p>
+    </div>
+  </footer>
   <script src="js/app.js"></script>
 </body>
