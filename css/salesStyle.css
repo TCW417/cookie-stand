@@ -48,12 +48,16 @@ table.linePrinter thead th {
 
 table.linePrinter tfoot th, table.linePrinter tfoot td {
   border-top: 2px dashed black;
-}
-
-/* table.linePrinter tbody tr:nth-of-type(odd) { */
-table.linePrinter tr:nth-of-type(even) {
   background-color: lightgreen;
 }
+
+table.linePrinter tbody tr:nth-of-type(even) {
+  background-color: lightgreen;
+}
+
+/* table.linePrinter tfoot.salesTableFooter {
+  background-color: lightgreen;
+} */
 
 table.default thead th {
   border-bottom: 2px solid black;
@@ -110,7 +114,9 @@ table.default tr:nth-of-type(even) {
 table.default tr:nth-of-type(odd) {
   background-color: rgb(212, 184, 145);
 }
-
+table.default tfoot tr td {
+  background-color: #E1962B;
+}
 tfoot tr {
   font-weight: bold;
 }
