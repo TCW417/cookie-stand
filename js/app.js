@@ -164,9 +164,6 @@ CookieStore.renderSalesResults = function() {
   // Add it to the page.
   el.textContent = reportDate;
 
-  //Add total store sales to bottom of report
-  el = document.getElementById('allStoreSales');
-  el.textContent = allStoresTotalCookieSales;
 };
 
 // Render sales table header
@@ -223,6 +220,7 @@ CookieStore.renderTableFooter = function() {
 // Render company-wide staffing estimate...
 CookieStore.renderStaffingEstimate = function() {
   // Render headings of the table
+  console.log('rendering staffing table');
   CookieStore.renderStaffingTableHeader();
 
   //loop through stores rendering their sales
