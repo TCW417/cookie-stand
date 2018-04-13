@@ -1,30 +1,15 @@
-* {
-  /* border: 1px solid red; */
-  /* box-sizing: border-box; */
+body {
   max-width: 960px;
-  /* min-width: 960px; */
-  background-color: lightblue;
-}
-
-.container {
-  position: relative;
-  text-align: center;
-  color: white;
-}
-
-.centered {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: transparent;
+  background-color: #AA7B39;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1 {
   font-family: 'East Sea Dokdo', cursive;
   font-size: 600%;
   text-align: center;
-  color: rgb(235, 166, 178);
+  color: #FF9A0B;
 }
 
 h2 {
@@ -32,47 +17,137 @@ h2 {
   font-size: 200%;
   line-height: 50px;
   margin: 0px 8px;
-  /* color: rgb(55, 74, 110); */
+  color: #FF9A0B;
+}
+
+p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: #3C3225;
+  font-size: 120%;
+  margin: 8px;
+  line-height: 120%;
 }
 
 ul, ol, table {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 120%;
-  color:  rgb(55, 74, 110);
+  color: rgb(62, 50, 33);
+  /* background-color: beige; */
 }
 
-p {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  color: darkblue;
-  font-size: 120%;
-}
-
-.column1 {
-  float: left;
-  width: 70%;
-}
-.sidebar {
-  float: right;
-  background-color: rgb(235, 166, 178);
-}
-
-.hours {
+#logo  {
+  position: relative;
   text-align: center;
-  clear: both;
+  color: white;
+  padding-top: 75px;
 }
 
-h2, h2+ul, li {
-  background-color: rgb(235, 166, 178);
+.centered {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+}
+
+
+div.column1 ul {
+  list-style-image: url("../img/salmon-emoji.png");
+  /* list-style-type: square; */
+  list-style-position: inside;
+  padding: 15px;
+}
+div.column1 li {
+  margin-top: 10px;
+}
+
+.inlineLogoType {
+  font-family: 'East Sea Dokdo', cursive;
+  font-size: 160%;
+  color: #FF9A0B;
+}
+
+.width-300 {
+  display: inline-block;
+  width: 300px;
+  height: 400px;
+  overflow: auto;
+  margin-top: 30px;
+  margin-right: 13px;
+  margin-bottom: 30px;
+  border: 2px solid #3C3225;
+  border-radius: 4px;
+}
+
+.width-300 img {
+  width: 100%;
+}
+
+.width-300 ul {
+  list-style-image: url('../img/salmon-emoji.png');
+  list-style-position: inside;
+  padding-left: 8px;
+  line-height: 140%;
+}
+
+.storeHeight {
+  height: 650px;
+}
+.noRight {
+  margin-right: 0px;
+}
+
+#blog h2 {
+  text-align: center;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+
+#blog h3 {
+  font-family: 'East Sea Dokdo', cursive;
+  color:#FF9A0B;
+  font-size: 150%;
+  margin-left: 8px;
+}
+div.sidebar {
+  background-color: beige;
   /* border: 1px solid black; */
 
+}
+
+header {
+  position: fixed;
+  background-color: rgb(212, 184, 145);
+  width: 960px;
+  margin: inherit;
+  z-index: 10;
+  
+}
+
+footer {
+  background-color: rgb(212, 184, 145);
+  width: 960px;
+  height: 70px;
+  margin: inherit;
+}
+
+footer p {
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  width: 100%;
+  line-height: 50px;
+  /* position: absolute; */
+  left: 10px;
+  top: 10px;
 }
 nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(55, 74, 110);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color:rgb(212, 184, 145);
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 nav li {
@@ -81,17 +156,19 @@ nav li {
 
 nav li a {
   display: inline-block;
-  color: white;
+  color: #111;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  background-color: rgb(55, 74, 110);;
+  background-color:rgb(212, 184, 145);
 }
 
 nav li a:hover {
   background-color: #111;
+  color: beige;
 }
 
 nav .active {
-  background-color: rgb(122, 13, 13);
+  background-color: #62523d;
+  color: beige;
 }

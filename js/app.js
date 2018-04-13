@@ -328,9 +328,41 @@ function clearAndResetForm() {
   document.getElementById('nameField').focus();
 }
 
+// Switch sales table CSS betwen .default and .linePrinter classes
+function onChangeCssButtonPress(e) {
+// get value of changeCss button. We'll toggle it between ".default" and ".linePrinter"
+  var changeCssButtonEl = document.getElementById('changeCss');
+  var currentButtonState = e.target.value;
+  var salesTableEl = document.getElementById('salesDataTable');
+  console.log('current button state', currentButtonState);
+  // if it's .default
+  //   change class of #salesData table to linePrinter
+  //   change value of e.target.value to linePrinter
+  //   change button text to "Change to Default Style"
+  if (currentButtonState === 'default') {
+    salesTableEl.className = 'linePrinter';
+    e.target.value = 'linePrinter';
+    console.log('changed to linePrinter');
+    changeCssButtonEl.textContent = 'Change to Default Style';
+  // else
+  //   change class to .default
+  //   change target value to .default
+  //   change button text to "Change to Default Style"
+  } else {
+    salesTableEl.className = 'default';
+    e.target.value = 'default';
+    console.log('changed to default');
+    changeCssButtonEl.textContent = 'Change to Line Printer Style';
+  }
+}
+
 // Attach listener function to add store form submit button
 var addStoreFormEl = document.getElementById('addStoreForm');
 addStoreFormEl.addEventListener('submit', onNewCookieStoreFormSubmitted);
+
+// Attach listener to Change CSS button
+var switchCss = document.getElementById('changeCss');
+switchCss.addEventListener('click', onChangeCssButtonPress);
 
 // **************** Add Initial Stores and Render Tables ******************
 // Instantiate each store with stats provided by business owner:
