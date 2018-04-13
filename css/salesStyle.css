@@ -73,18 +73,26 @@ table {
   margin-right: auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-radius: 10px;
 }
 
 table.default {
   border: 4px solid #3c3225;
+  border-radius: 10px;
 }
 
 table.linePrinter {
-  border 4px solid black;
-  margin-left: auto;
-  margin-right: auto;
+  border: 2px solid black;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  background-color: #eee;
 }
+table.linePrinter th {
+  font-weight: bold;
+}
+table.linePrinter tbody tr:nth-of-type(odd) {
+  background-color: lightgreen;
+}
+
 table.default thead tr th:first-child {
   border-top-left-radius: 8px;
 }
@@ -109,27 +117,27 @@ table.default tbody[id^="staffing"] tr:last-child th {
   border-bottom-left-radius: 8px;
 }
 
-th {
+table.default th {
   background-color: beige;
   font-family: sans-serif;
   line-height: 150%;
   border-radius: 4px;
 }
 
-td {
+table.default td {
   text-align: center;
   font-family: sans-serif;
   line-height: 150%;
   border-radius: 4px;
 }
 
-td:last-child {
+table.default td:last-child {
   font-weight: bold;
 }
-tr:nth-of-type(even) {
+table.default tr:nth-of-type(even) {
   background-color: #E1962B;
 }
-tr:nth-of-type(odd) {
+table.default tr:nth-of-type(odd) {
   background-color: rgb(212, 184, 145);
 }
 
@@ -139,6 +147,16 @@ tfoot tr {
 
 table.staffing td:last-child {
   font-weight: normal;
+}
+
+button[name*="Css"] {
+  position: relative;
+  left: 40%;
+  /* margin-right: auto;
+  margin-left: auto; */
+  font-size: 70%;
+  border-radius: 10px;
+  background-color: rgb(243, 176, 84)
 }
 
 form {
