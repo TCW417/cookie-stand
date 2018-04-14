@@ -12,6 +12,8 @@ var openHours = 15;
 // Hourly sales totals for all locations
 var hourlyTotal = [];
 
+var tableHasBeenUpdated = false;
+
 // ********** CookieStore constructor and prototype methods ***************
 function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   this.name = name;
@@ -24,6 +26,7 @@ function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
   // hourlyStaffingEstimate with simulated data
   store.push(this); // push this store into (onto?) the global store array
 }
+
 
 // Return randum # of customers per hour between stores min amd max values
 CookieStore.prototype.hourlyCustomers = function() {
@@ -197,7 +200,7 @@ CookieStore.renderSalesTableHeader = function() {
 // Render sales table footer
 CookieStore.renderSalesTableFooter = function() {
   // Get table footer
-  var tfootEl = document.getElementById('tableFooter');
+  var tableBodyEl = document.getElementById('tableBody');
   // Start row
   var trEl = document.createElement('tr');
   // Add header cell
@@ -214,40 +217,16 @@ CookieStore.renderSalesTableFooter = function() {
   trEl.appendChild(tdEl);
 
   // Append row to footer
-  tfootEl.appendChild(trEl);
+  tableBodyEl.appendChild(trEl);
 
-  // Figure out background color for footer row
-  var tableClass = document.getElementById('salesDataTable').className;
-  var lightLine, darkLine;
-  console.log('table class', tableClass);
-  // First (header) row is dark color. Alternating lines are light
-  // If store.length + 1 (for header) is even
-  //   make footer background dark (it's an odd row)
-  // else
-  //   make it light colored
-  console.log(' footer row mod',(store.length + 1) % 2);
-  console.log(' initial td background color', tfootEl.getElementsByTagName('td')[0].style.backgroundColor);
-  if (tableClass === 'default') {
-    darkLine = '#E1962B';
-    lightLine = 'beige';
-  } else {
-    darkLine = 'lightgreen';
-    lightLine = '#eee';
-  }
-  if ((store.length + 1) % 2 === 0) {
-    tfootEl.style.backgroundColor = darkLine;
-    console.log('mod == 0, background to ',darkLine);
-  } else {
-    tfootEl.style.backgroundColor = lightLine;
-    console.log('mod <> 0 background to', lightLine);
-  }
-  console.log('footer background color set to', tfootEl.style.backgroundColor);
 };
 
-CookieStore.updateSalesTableFooter = function() {
-  //Delete and re-render sales table footer
-  document.getElementById('tableFooter').deleteRow(0);
-  CookieStore.renderSalesTableFooter();
+//Delete sales table footer (last row in tbody element)
+CookieStore.deleteSalesTableFooter = function() {
+  //Delete sales table footer (last row in tbody element)
+  var tableEl = document.getElementById('tableBody');
+  var bodyRows = document.getElementById('tableBody').getElementsByTagName('tr');
+  tableEl.deleteRow(bodyRows.length-1);
 };
 
 // Render company-wide staffing estimate...
@@ -301,6 +280,7 @@ function createTextElement(tag, textString) {
 function onNewCookieStoreFormSubmitted(e) {
   // Prevent default browser behavior
   e.preventDefault();
+  console.group('onNewCookieStoreFormSubmittd');
   console.log('the form was submitted!');
 
   var formEl = e.target;
@@ -341,15 +321,18 @@ function onNewCookieStoreFormSubmitted(e) {
   // Data looks good. Create new store object and add to table.
     var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
     console.log(newStore);
-
+    tableHasBeenUpdated = true;
+    console.log('table updated flag set to true');
     // Add rows to sales and staffing tables
+    CookieStore.deleteSalesTableFooter();
     newStore.renderStoreSalesTableRow(); // Add row to sales table
-    CookieStore.updateSalesTableFooter(); // update footer of sales data table
+    CookieStore.renderSalesTableFooter(); // update footer of sales data table
     newStore.renderStoreStaffingTableRow(); // Add row to staffing table
 
     clearAndResetForm();
   }
   console.log('Exiting listener function');
+  console.groupEnd();
 }
 
 // Clear form and return focus to first text input box
@@ -366,6 +349,7 @@ function onChangeCssButtonPress(e) {
   var changeCssButtonEl = document.getElementById('changeCss');
   var currentButtonState = e.target.value;
   var salesTableEl = document.getElementById('salesDataTable');
+  console.group('onChangeCssBUttonPress');
   console.log('current button state', currentButtonState);
   // if it's .default
   //   change class of #salesData table to linePrinter
@@ -386,6 +370,7 @@ function onChangeCssButtonPress(e) {
     console.log('changed to default');
     changeCssButtonEl.textContent = 'Change to Line Printer Style';
   }
+  console.groupEnd();
 }
 
 // Attach listener function to add store form submit button
