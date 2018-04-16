@@ -267,6 +267,18 @@ CookieStore.renderStaffingTableHeader = function() {
   theadEl.appendChild(trEl);
 };
 
+// Check if new store name is unique
+CookieStore.storeNameIsUnique = function(newName) {
+  var unique = true;
+  for (var i = 0; i < store.length; i++) {
+    if (store[i].name.toLowerCase() === newName.toLowerCase()) {
+      unique = false;
+      break;
+    }
+  }
+  return unique;
+};
+
 // ************* Helper Functions **************
 // create an element that takes a textContent property
 function createTextElement(tag, textString) {
@@ -293,15 +305,17 @@ function onNewCookieStoreFormSubmitted(e) {
   console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
 
   // Validate store name
-  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
-    alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
+  // Check for unique name, length and legal characters
+  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16 || CookieStore.storeNameIsUnique(formEl.name.value) === false) {
+    alert('Store name must be unique, composed of letters and numbers only and be between 4 and 16 characters in length.');
     formEl.name.value = '';
     document.getElementById('nameField').focus();
   // Validate that max and min are in range
   } else if (minCustomers < 1 || minCustomers > 300) {
-    alert('Minimum Customers/Hr must be between 1 and 300.');
-    formEl.minCustomers.value = '';
+    alert('Minimum Custmers/Hr must be between 1 and 300.');
+    formEl.name.value = '';
     document.getElementById('minField').focus();
+  // Validate min and max values
   } else if (maxCustomers < 1 || maxCustomers > 600) {
     alert('Maximum Customers/Hr must be between 1 and 600.');
     formEl.maxCustomers.value = '';

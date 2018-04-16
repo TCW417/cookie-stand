@@ -66,8 +66,8 @@ table.linePrinter tbody tr:nth-of-type(even) {
 table.default thead th {
   border-bottom: 2px solid black;
 }
-table.default tbody tr:last-of-type td,
-table.default tbody tr:last-of-type th { 
+table#salesDataTable[class="default"] tbody tr:last-of-type td,
+table#salesDataTable[class="default"] tbody tr:last-of-type th { 
   border-top: 2px solid black;
 }
 table.default thead tr th:first-child {
