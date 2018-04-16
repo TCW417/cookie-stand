@@ -5,7 +5,7 @@ body {
   margin-right: auto;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-family: 'East Sea Dokdo', cursive;
   color: #FF9A0B;
 }
@@ -35,6 +35,11 @@ h4 {
   font-size: 180%;
   line-height: 40px;
   margin: 0px 8px;
+}
+
+h5 {
+  font-size: 150%;
+  text-align: center;
 }
 
 p {
