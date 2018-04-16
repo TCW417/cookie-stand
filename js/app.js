@@ -251,6 +251,9 @@ CookieStore.clearSalesResultsTable = function() {
 
 // Render company-wide staffing estimate...
 CookieStore.renderStaffingEstimate = function() {
+  // Clear existing table
+  CookieStore.clearStaffingTable();
+
   // Render headings of the table
   console.log('rendering staffing table');
   CookieStore.renderStaffingTableHeader();
@@ -259,6 +262,20 @@ CookieStore.renderStaffingEstimate = function() {
   for (var i of store) {
     i.renderStoreStaffingTableRow();
   }
+};
+
+// Clear content from staffing table
+CookieStore.clearStaffingTable = function() {
+  // replace existing tbody and thead in table with new, blank elements
+  var oldTbody = document.getElementById('staffingTableBody');
+  var newTbody = document.createElement('tbody');
+  newTbody.setAttribute('id', 'staffingTableBody'); // give new element required id
+  var oldThead = document.getElementById('staffingTableHeader');
+  var newThead = document.createElement('thead');
+  newThead.setAttribute('id', 'staffingTableHeader');
+  // Replace old nodes with new ones.
+  oldTbody.parentNode.replaceChild(newTbody, oldTbody);
+  oldThead.parentNode.replaceChild(newThead, oldThead);
 };
 
 // Render header labels for staffing table
@@ -421,6 +438,28 @@ function onChangeCssButtonPress(e) {
   console.groupEnd();
 }
 
+// Listener function to delete row on right-click
+function onSalesTableRightClick(e) {
+
+  e.preventDefault();
+
+  var targetNodeType = e.target.nodeName; // should be 'TH'
+  var targetNodeText = e.target.innerText; // name of store in th cell
+  // if storeNameIsUnique returns false then user right click on a store name
+  // second element of array returned is store row.
+  var storeNameIsUnique = CookieStore.storeNameIsUnique(targetNodeText);
+  var storeNumber = storeNameIsUnique[1];
+
+  if (targetNodeType === 'TH' && !storeNameIsUnique[0]) { //Store is in table
+    if (confirm('Delete ' + targetNodeText + ' store data from table?') && confirm('Are you sure? There\'s no undelete!')) {
+      // User wants to delete store row
+      store.splice(storeNumber,1);
+      CookieStore.renderSalesResults();
+      CookieStore.renderStaffingEstimate();
+    }
+  }
+}
+
 // Attach listener function to add store form submit button
 var addStoreFormEl = document.getElementById('addStoreForm');
 addStoreFormEl.addEventListener('submit', onNewCookieStoreFormSubmitted);
@@ -428,6 +467,12 @@ addStoreFormEl.addEventListener('submit', onNewCookieStoreFormSubmitted);
 // Attach listener to Change CSS button
 var switchCss = document.getElementById('changeCss');
 switchCss.addEventListener('click', onChangeCssButtonPress);
+
+// Attach lister function to data tables to capture right-click
+var salesTableEl = document.getElementById('salesDataTable');
+salesTableEl.addEventListener('contextmenu', onSalesTableRightClick);
+var staffingTableEl = document.getElementById('staffingTable');
+staffingTableEl.addEventListener('contextmenu', onSalesTableRightClick);
 
 // **************** Add Initial Stores and Render Tables ******************
 // Instantiate each store with stats provided by business owner:
