@@ -12,7 +12,7 @@ var openHours = 15;
 // Hourly sales totals for all locations
 var hourlyTotal = [];
 
-var tableHasBeenUpdated = false;
+// var tableHasBeenUpdated = false;
 
 // ********** CookieStore constructor and prototype methods ***************
 function CookieStore(name, minCustomers, maxCustomers, avgCookiesPerCustomer) {
@@ -37,6 +37,8 @@ CookieStore.prototype.hourlyCustomers = function() {
 CookieStore.prototype.simulateDailySales = function() {
   // For each hour of operation multiply avg cookies
   // per customer by random # of customers
+  this.hourlyCookiesSold = []; //Clear object's two arrays
+  this.hourlyStaffingEstimate = [];
   for (var i = 0; i < openHours; i++) {
     this.hourlyCookiesSold.push(Math.round(this.avgCookiesPerCustomer * this.hourlyCustomers()));
     // Staffing is estimated based on min of 2 and max of 20 cookies/employee/hr
@@ -144,6 +146,10 @@ CookieStore.renderSalesResults = function() {
     hourlyTotal[z] = 0;
   }
 
+  // Make sure sales and and staffing tables are empty before we build
+  // them in order to handle updating a store's info
+  CookieStore.clearSalesResultsTable();
+
   // Render headings of the table
   CookieStore.renderSalesTableHeader();
 
@@ -229,6 +235,20 @@ CookieStore.deleteSalesTableFooter = function() {
   tableEl.deleteRow(bodyRows.length-1);
 };
 
+// Clear content from salesDataTable
+CookieStore.clearSalesResultsTable = function() {
+  // replace existing tbody and thead in table with new, blank elements
+  var oldTbody = document.getElementById('tableBody');
+  var newTbody = document.createElement('tbody');
+  newTbody.setAttribute('id', 'tableBody'); // give new element required id
+  var oldThead = document.getElementById('tableHeader');
+  var newThead = document.createElement('thead');
+  newThead.setAttribute('id', 'tableHeader');
+  // Replace old nodes with new ones.
+  oldTbody.parentNode.replaceChild(newTbody, oldTbody);
+  oldThead.parentNode.replaceChild(newThead, oldThead);
+};
+
 // Render company-wide staffing estimate...
 CookieStore.renderStaffingEstimate = function() {
   // Render headings of the table
@@ -269,13 +289,14 @@ CookieStore.renderStaffingTableHeader = function() {
 
 // Check if new store name is unique
 CookieStore.storeNameIsUnique = function(newName) {
-  var unique = true;
+  var unique = [true, 0];
   for (var i = 0; i < store.length; i++) {
     if (store[i].name.toLowerCase() === newName.toLowerCase()) {
-      unique = false;
+      unique[0] = false;
       break;
     }
   }
+  unique[1] = i; //If [0] is true, name is unique and we'll never use [1]
   return unique;
 };
 
@@ -302,12 +323,13 @@ function onNewCookieStoreFormSubmitted(e) {
   var maxCustomers = parseInt(formEl.maxCustomers.value);
   var minCustomers = parseInt(formEl.minCustomers.value);
   var avgCookiesPerCustomer = parseFloat(formEl.avgCookiesPerCustomer.value);
-  console.log('max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
+  var uniqueStoreName = CookieStore.storeNameIsUnique(formEl.name.value);
+  console.log('name',formEl.name.value,'max',maxCustomers,'min',minCustomers,'avg/hr',avgCookiesPerCustomer);
 
   // Validate store name
   // Check for unique name, length and legal characters
-  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16 || CookieStore.storeNameIsUnique(formEl.name.value) === false) {
-    alert('Store name must be unique, composed of letters and numbers only and be between 4 and 16 characters in length.');
+  if (formEl.name.value.match(/^[A-Za-z0-9 ]{4,16}$/) === null || formEl.name.value.length < 4 || formEl.name.value.length > 16) {
+    alert('Store name must be composed of letters and numbers only and be between 4 and 16 characters in length.');
     formEl.name.value = '';
     document.getElementById('nameField').focus();
   // Validate that max and min are in range
@@ -332,17 +354,29 @@ function onNewCookieStoreFormSubmitted(e) {
     formEl.avgCookiesPerCustomer.value = '';
     document.getElementById('avgField').focus();
   } else {
-  // Data looks good. Create new store object and add to table.
-    var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
-    console.log(newStore);
-    tableHasBeenUpdated = true;
-    console.log('table updated flag set to true');
-    // Add rows to sales and staffing tables
-    CookieStore.deleteSalesTableFooter();
-    newStore.renderStoreSalesTableRow(); // Add row to sales table
-    CookieStore.renderSalesTableFooter(); // update footer of sales data table
-    newStore.renderStoreStaffingTableRow(); // Add row to staffing table
-
+  // Data looks good.
+  // If store name is unique, add a new row.
+    if (uniqueStoreName[0] === true) {
+      var newStore = new CookieStore(formEl.name.value, minCustomers, maxCustomers, formEl.avgCookiesPerCustomer.value);
+      console.log(newStore);
+      // tableHasBeenUpdated = true;
+      console.log('table updated flag set to true');
+      // Add rows to sales and staffing tables
+      CookieStore.deleteSalesTableFooter();
+      newStore.renderStoreSalesTableRow(); // Add row to sales table
+      CookieStore.renderSalesTableFooter(); // update footer of sales data table
+      newStore.renderStoreStaffingTableRow(); // Add row to staffing table
+    // Else if store name is already in table, update that store's info
+    } else {
+      console.log('Store name already in table.');
+      // Update store's min max and average info
+      var i = uniqueStoreName[1];
+      store[i].minCustomers = minCustomers;
+      store[i].maxCustomers = maxCustomers;
+      store[i].avgCookiesPerCustomer = avgCookiesPerCustomer;
+      store[i].simulateDailySales(); // update store's simulated sales data
+      CookieStore.renderSalesResults();
+    }
     clearAndResetForm();
   }
   console.log('Exiting listener function');
